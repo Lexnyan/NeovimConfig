@@ -1,27 +1,31 @@
--- so after a very unsucessful attempt at ripping off nvchad, i am making my own shit
+-- Definición del módulo
 local M = {}
--- creating commands
+
+-- Comandos de Neovim
 vim.cmd "function! BufflineGoToBuf(bufnr,b,c,d) \n execute 'b'..a:bufnr \n endfunction"
 vim.cmd [[
    function! BufflineKillBuf(bufnr,b,c,d)
         call luaeval('require("ui.buf.fn").close_buffer(_A)', a:bufnr)
   endfunction]]
-
 vim.cmd "function! ToggleTheme(a,b,c,d) \n lua require('prism.themer'):random() \n endfunction"
 vim.cmd "function! CloseAll(a,b,c,d) \n q \n endfunction"
 vim.cmd "function! Split(a,b,c,d) \n vsplit \n endfunction"
 vim.cmd "function! Run(a,b,c,d) \n lua require('core.functions').build_run() \n endfunction"
+
 vim.api.nvim_create_user_command("BufflinePrev", function()
   require("ui.buf.fn").tabuflinePrev()
 end, {})
 vim.api.nvim_create_user_command("BufflineNext", function()
   require("ui.buf.fn").tabuflineNext()
 end, {})
+
+-- Función para crear una pestaña
 local createTab = function(buf)
   local close_btn = "%" .. buf .. "@BufflineKillBuf@ 󰅜 %X"
   local filename = (#vim.api.nvim_buf_get_name(buf) ~= 0) and vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t") or
       ""
 
+  -- Lógica para diferenciar archivos con el mismo nombre
   for _, buffer in pairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_is_valid(buffer) and vim.api.nvim_buf_is_loaded(buffer) and vim.bo[buffer].buflisted and filename ~= "" then
       if filename == vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buffer), ":t") and buffer ~= buf then
@@ -50,6 +54,8 @@ local createTab = function(buf)
       end
     end
   end
+
+  -- Configuración de colores y botones según el estado del búfer
   if buf == vim.api.nvim_get_current_buf() then
     filename = "%#BufflineBufOnActive#  " .. "  " .. filename
     close_btn = (vim.bo[0].modified and "%" .. buf .. "@BufflineKillBuf@%#BuffLineBufOnModified#  ")
@@ -74,11 +80,10 @@ local treeWidth = function()
 end
 
 M.getTabline = function()
-  local buffline = ""
+  local buffline = " "
   local buffstart = "%#BuffLineEmpty#"
   local run = "%#BuffLineRun# %@Run@" .. "  "
   if vim.bo.filetype == "html" then
-
     run = "%#BuffLineRun# %@Run@" .. "󰀂  "
   end
   local button = "%#BufflineButton# %@ToggleTheme@" .. "󱥚  "
@@ -86,14 +91,14 @@ M.getTabline = function()
   local closebutton = "%#BufflineCloseButton# %@CloseAll@" .. "󰅜 "
   local counter = 0
   for _, buf in pairs(vim.api.nvim_list_bufs()) do
-    local filename = vim.api.nvim_buf_get_name(buf):match("^.+/(.+)$") or ""
-    if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted and filename ~= "" then
-      local conditions = vim.tbl_contains(excludedFileTypes, vim.bo[buf].ft)
-      if conditions then goto do_nothing else filename = "%#BufflineEmptyColor#" .. createTab(buf) end
-      buffline = buffline .. filename
-      counter = counter + 1
+    local filename = vim.api.nvim_buf_get_name(buf)
+    if filename ~= "" and not vim.tbl_contains(excludedFileTypes, vim.bo[buf].ft) then
+      if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
+        filename = "%#BufflineEmptyColor#" .. createTab(buf)
+        buffline = buffline .. filename
+        counter = counter + 1
+      end
     end
-    ::do_nothing::
   end
   if counter > 0 then
     buffstart = "%#BufflineEmptyColor#"
@@ -110,12 +115,14 @@ end
 
 M.setup = function()
   if #vim.fn.getbufinfo { buflisted = 1 } >= 1 then
-    vim.o.showtabline = 2
-    vim.o.tabline = '%!v:lua.require("ui.buf").getTabline()'
+    vim.opt.showtabline = 2
+    vim.opt.tabline = '%!v:lua.require("ui.buf").getTabline()'
   end
 end
+
 vim.cmd [[
 nnoremap <silent><TAB> :BufflineNext<CR>
 nnoremap <silent><S-TAB> :BufflinePrev<CR>
 ]]
+
 return M
