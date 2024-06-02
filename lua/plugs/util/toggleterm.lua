@@ -13,7 +13,7 @@ require "toggleterm".setup {
   persist_size = true,
   direction = "horizontal",
   close_on_exit = true,
-  shell = vim.o.shell,
+  shell = "pwsh",--vim.o.shell,
   autochdir = true,
   highlights = {
     NormalFloat = {

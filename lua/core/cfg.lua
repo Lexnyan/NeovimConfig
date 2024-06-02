@@ -1,6 +1,6 @@
 local M = {}
 
-M.statusstyle = 'blocks' --'minimal, fancy, blocks'
+M.statusstyle = 'minimal' --'minimal, fancy, blocks'
 
 local logos = setmetatable({
     TEXT = [[
