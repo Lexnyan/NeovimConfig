@@ -47,12 +47,14 @@ local servers = {
   "intelephense",
   "jsonls",
 }
+
 for _, k in ipairs(servers) do
   lspconfig[k].setup {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
   }
 end
+
 lspconfig.lua_ls.setup {
   on_attach = M.on_attach,
   capabilities = M.capabilities,
@@ -68,4 +70,27 @@ lspconfig.lua_ls.setup {
     },
   }
 }
+
+lspconfig.intelephense.setup {
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  cmd = { "intelephense" },
+  root_dir = lspconfig.util.root_pattern("composer.json", "package.json", "tsconfig.json", "jsconfig.json"),
+}
+
+lspconfig.clangd.setup {
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  cmd = { "clangd", "--background-index" },
+  root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", "compile_flags.txt", "compile_flags.txt"),
+}
+
+lspconfig.omnisharp.setup {
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  cmd = { "omnisharp" },
+  root_dir = function() return vim.fn.getcwd() end,
+}
+
+
 return M
