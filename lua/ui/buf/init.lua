@@ -1,7 +1,6 @@
--- Definición del módulo
 local M = {}
 
--- Comandos de Neovim
+-- Neovim commands
 vim.cmd "function! BufflineGoToBuf(bufnr,b,c,d) \n execute 'b'..a:bufnr \n endfunction"
 vim.cmd [[
    function! BufflineKillBuf(bufnr,b,c,d)
@@ -19,13 +18,13 @@ vim.api.nvim_create_user_command("BufflineNext", function()
   require("ui.buf.fn").tabuflineNext()
 end, {})
 
--- Función para crear una pestaña
+-- Function to create a tab
 local createTab = function(buf)
   local close_btn = "%" .. buf .. "@BufflineKillBuf@ 󰅜 %X"
   local filename = (#vim.api.nvim_buf_get_name(buf) ~= 0) and vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t") or
       ""
 
-  -- Lógica para diferenciar archivos con el mismo nombre
+  -- Logic to determine if the filename is the same as the current buffer
   for _, buffer in pairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_is_valid(buffer) and vim.api.nvim_buf_is_loaded(buffer) and vim.bo[buffer].buflisted and filename ~= "" then
       if filename == vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buffer), ":t") and buffer ~= buf then
@@ -55,7 +54,7 @@ local createTab = function(buf)
     end
   end
 
-  -- Configuración de colores y botones según el estado del búfer
+  -- Settigns colors and buttons based on buffer status
   if buf == vim.api.nvim_get_current_buf() then
     filename = "%#BufflineBufOnActive#  " .. "  " .. filename
     close_btn = (vim.bo[0].modified and "%" .. buf .. "@BufflineKillBuf@%#BuffLineBufOnModified#  ")
