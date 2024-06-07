@@ -40,14 +40,14 @@ function M.build_run()
       default = "live-server .",
     },
     c = {
-      default = "gcc % -o $fileBase && $fileBase",
+      default = "gcc % -o $fileBase && ./$fileBase",
       debug = "gcc -g % -o $fileBase && $fileBase",
     },
     cs = {
       default = "dotnet run",
     },
     cpp = {
-      default = "g++ % -o  $fileBase && $fileBase",
+      default = "g++ % -o  $fileBase && ./$fileBase",
       debug = "g++ -g % -o  $fileBase",
       -- competitive = "g++ -std=c++17 -Wall -DAL -O2 % -o $fileBase && $fileBase<input.txt",
       competitive = "g++ -std=c++17 -Wall -DAL -O2 % -o $fileBase && $fileBase",

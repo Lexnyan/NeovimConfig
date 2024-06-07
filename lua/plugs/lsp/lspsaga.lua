@@ -20,7 +20,7 @@ saga.setup {
 
   ui = {
     theme = "border",
-    border = "single",
+    border = "rounded",
     winblend = 0,
     expand = "",
     collaspe = "",

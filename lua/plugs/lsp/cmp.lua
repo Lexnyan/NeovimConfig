@@ -48,6 +48,7 @@ cmp.setup({
   vim.api.nvim_set_hl(0, "CmpItemAbbr", { fg = colors.color4, bg = "NONE" }),
   vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = colors.color3, bg = "NONE" }),
   vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = colors.color1, bg = "NONE" }),
+  vim.api.nvim_set_hl(0, "MyPmenu", { fg = colors.color6, bg = "NONE" }),
   snippet = {
     expand = function(args)
       local present, luasnip = pcall(require, "luasnip")
@@ -58,13 +59,14 @@ cmp.setup({
   },
   window = {
     completion = {
-      border = "single",
+      border = "rounded",
       scrollbar = false,
-      winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None"
+      winhighlight = "Normal:Pmenu,FloatBorder:MyPmenu,CursorLine:PmenuSel,Search:None"
     },
     documentation = {
-      border = "single",
+      border = "rounded",
       scrollbar = false,
+      winhighlight = "Normal:Pmenu,FloatBorder:MyPmenu,CursorLine:PmenuSel,Search:None"
     }
   },
   mapping = cmp.mapping.preset.insert({

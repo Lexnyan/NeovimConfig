@@ -6,16 +6,16 @@ local M = function(m)
   local git_status = vim.b.gitsigns_status_dict
 
   if git_status then
-    local added = (git_status.added) and ("  " .. git_status.added) or ""
-    local changed = (git_status.changed) and ("  " .. git_status.changed) or ""
-    local removed = (git_status.removed) and ("  " .. git_status.removed) or ""
+    local added = (git_status.added) and ("  " .. git_status.added) or ""
+    local changed = (git_status.changed) and ("  " .. git_status.changed) or ""
+    local removed = (git_status.removed) and ("  " .. git_status.removed) or ""
     if (m == 'blocks') then
       return " " ..
           "%#StalineDiffAdd#" .. added .. "%#StalineDiffChange#" .. changed .. "%#StalineDiffRemove#" .. removed
     elseif (m == 'fancy') then
-      added = (git_status.added) and ("  " .. git_status.added) or ""
-      changed = (git_status.changed) and ("  " .. git_status.changed) or ""
-      removed = (git_status.removed) and ("  " .. git_status.removed) or ""
+      added = (git_status.added) and ("  " .. git_status.added) or ""
+      changed = (git_status.changed) and ("  " .. git_status.changed) or ""
+      removed = (git_status.removed) and ("  " .. git_status.removed) or ""
       return " " ..
           "%#StalineDiffAddFancy#" ..
           added ..

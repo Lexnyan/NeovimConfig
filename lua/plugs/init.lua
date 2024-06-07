@@ -116,7 +116,12 @@ lazy.setup({
     lazy = true,
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     dependencies = {
-      "HiPhish/rainbow-delimiters.nvim",
+      {
+        "HiPhish/rainbow-delimiters.nvim",
+        config = function()
+          require "plugs.ts.rainbow"
+        end
+      },
       {
         "windwp/nvim-ts-autotag",
         ft = { "html", "javascript", "jsx", "typescript", "tsx", "svelte", "vue", "xml", "markdown" },
