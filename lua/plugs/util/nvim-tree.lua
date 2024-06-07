@@ -62,3 +62,6 @@ vim.cmd [[
 autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 ]]
+
+local colors = require("prism.themer"):getColors()
+vim.api.nvim_set_hl(0, 'WinSeparator', { fg = colors.background, bg = 'NONE' })
