@@ -9,11 +9,11 @@ require 'nvim-tree'.setup {
         default = ' ',
         symlink = ' ',
         git = {
-          deleted = '',
-          unstaged = '',
-          untracked = '',
-          staged = '',
-          unmerged = '',
+          deleted = ' ',
+          unstaged = ' ',
+          untracked = ' ',
+          staged = ' ',
+          unmerged = ' ',
         }
       },
       show = {
