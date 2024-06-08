@@ -19,8 +19,8 @@ saga.setup {
   },
 
   ui = {
-    theme = "solid",
-    border = "solid",
+    theme = "border",
+    border = "rounded",
     winblend = 0,
     expand = "",
     collaspe = "",
