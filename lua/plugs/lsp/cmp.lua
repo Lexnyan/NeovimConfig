@@ -54,13 +54,13 @@ cmp.setup({
 
   window = {
     completion = {
-      border = "rounded",
+      border = "solid",
       scrollbar = false,
       padding = 1,
       winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None"
     },
     documentation = {
-      border = "rounded",
+      border = "solid",
       scrollbar = false,
       padding = 1,
       winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None"

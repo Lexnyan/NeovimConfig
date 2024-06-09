@@ -342,6 +342,7 @@ lazy.setup({
       require("plugs.dap")
     end
   },
+
   {
     "preservim/nerdcommenter",
     lazy = false,
@@ -349,6 +350,26 @@ lazy.setup({
       require("plugs.util.utils").nerdcommenter()
     end
   },
+
+  {
+    "mistricky/codesnap.nvim",
+    build = "make build_generator",
+    lazy = false,
+    config = function()
+      require("codesnap").setup({
+        save_path = "~/Pictures/",
+        mac_window_bar = true,
+        title = "CodeSnap",
+        code_font_family = "JetBrainsMono Nerd Font",
+        watermark_font_family = "Pacifico",
+        watermark = "Lexnyan",
+        bg_theme = "summer",
+        breadcrumbs_separator = "/",
+        has_line_number = true,
+      })
+    end
+  },
+
 }, {
   ui = {
     size = { width = 0.8, height = 0.8 },
