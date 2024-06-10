@@ -1,72 +1,58 @@
 -- NOTE: Neovim options
-
-local options = {
-  backup = false, -- creates a backup file
-  conceallevel = 0, -- so that `` is visible in markdown files
-  fileencoding = "utf-8", -- the encoding written to a file
-  hidden = true, -- required to keep multiple buffers and open multiple buffers
-  ignorecase = true, -- ignore case in search patterns
-  mouse = "a", -- allow the mouse to be used in neovim
-  pumheight = 8, -- pop up menu height
-  pumblend = 0, -- transparency of pop-up menu
-  showmode = false, -- we don't need to see things like -- INSERT -- anymore
-  smartcase = true, -- smart case
-  smartindent = true, -- make indenting smarter again
-  splitbelow = true, -- force all horizontal splits to go below current window
-  splitright = true, -- force all vertical splits to go to the right of current window
-  swapfile = true, -- creates a swapfile
-  timeoutlen = 500, -- time to wait for a mapped sequence to complete (in milliseconds)
-  undofile = true, -- enable persistent undo
-  updatetime = 100, -- faster completion (4000ms default)
-  writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-  expandtab = true, -- convert tabs to spaces
-  shiftwidth = 2, -- the number of spaces inserted for each indentation
-  tabstop = 2, -- insert 2 spaces for a tab
-  cursorline = true, -- highlight the current line
-  number = true, -- set numbered lines
-  relativenumber = true, -- set relative numbered lines
-  numberwidth = 5, -- set number column width to 4 {default 4}
-  signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
-  wrap = false, -- display lines as one long line
-  scrolloff = 8, -- minimal number of columns to scroll horizontally.
-  sidescrolloff = 8, -- minimal number of screen columns
-  lazyredraw = false, -- Won't be redrawn while executing macros, register and other commands.
-  termguicolors = true, -- Enables 24-bit RGB color in the TUI
-  fillchars = { eob = " ", fold = " ", foldopen = "", foldsep = " ", foldclose = "", lastline = " " }, -- make EndOfBuffer invisible
-  ruler = false,
-  cmdheight = 0,
-  -- shell = vim.fn.executable "pwsh" and "pwsh" or "powershell",
-  -- shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
-  -- shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
-  -- shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
-  -- shellquote = "",
-  -- shellxquote = "",
-}
-
-local global = {
-  mkdp_auto_close = false, -- Don't Exit Preview When Switching Buffers
-  mapleader = " ",         -- Set mapleader to space
-  snipmate_snippets_path = vim.fn.stdpath "config" .. "/snippets/snipmate",
-  startup_message = false, -- Show startup message
-  random_header = false,   -- Show random header
-  skip_ts_context_commentstring_module = true,
-  toggle_cmp = true,
-}
-
-vim.opt.shortmess:append "Ac" -- Disable asking
-vim.opt.whichwrap:append "<,>,[,],h,l"
-vim.opt.iskeyword:append "-"
-
-for name, value in pairs(options) do
-  vim.opt[name] = value
-end
-
-for name, value in pairs(global) do
-  vim.g[name] = value
-end
-
-local g = vim.g
 local config = require("core.cfg")
+local opt = vim.opt
+local o = vim.o
+local g = vim.g
+
+o.laststatus = 3
+o.showmode = false
+o.wrap = false
+
+o.clipboard = "unnamedplus"
+o.cursorline = true
+o.cursorlineopt = "number"
+
+-- Indenting
+o.expandtab = true
+o.shiftwidth = 2
+o.smartindent = true
+o.tabstop = 2
+o.softtabstop = 2
+
+opt.fillchars = { eob = " " }
+o.ignorecase = true
+o.smartcase = true
+o.mouse = "a"
+
+-- Numbers
+o.number = true
+o.numberwidth = 2
+o.ruler = false
+
+-- disable nvim intro
+opt.shortmess:append "sI"
+
+o.signcolumn = "yes"
+o.splitbelow = true
+o.splitright = true
+o.timeoutlen = 400
+o.undofile = true
+
+-- interval for writing swap file to disk, also used by gitsigns
+o.updatetime = 250
+
+-- go to previous/next line with h,l,left arrow and right arrow
+-- when cursor reaches end/beginning of line
+opt.whichwrap:append "<>[]hl"
+opt.fillchars = { eob = " ", fold = " ", foldopen = "", foldsep = " ", foldclose = "", lastline = " " }
+
+-- disable some default providers
+g["loaded_node_provider"] = 0
+g["loaded_python3_provider"] = 0
+g["loaded_perl_provider"] = 0
+g["loaded_ruby_provider"] = 0
+
+g.toggle_cmp = true
 g.code_action_menu_window_border = 'single'
 g.currentTheme = config.colorscheme
 g.theme_cache = vim.fn.stdpath "data" .. "/colors_data/"
