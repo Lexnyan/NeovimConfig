@@ -353,7 +353,7 @@ lazy.setup({
 
   {
     "mistricky/codesnap.nvim",
-    build = "make build_generator",
+    build = "make",
     lazy = false,
     config = function()
       require("codesnap").setup({
