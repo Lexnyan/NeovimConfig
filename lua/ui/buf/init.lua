@@ -6,7 +6,8 @@ vim.cmd [[
    function! BufflineKillBuf(bufnr,b,c,d)
         call luaeval('require("ui.buf.fn").close_buffer(_A)', a:bufnr)
   endfunction]]
-vim.cmd "function! ToggleTheme(a,b,c,d) \n lua require('prism.themer'):random() \n endfunction"
+vim.cmd "function! ToggleTheme(a,b,c,d) \n lua require('theme.pick'):random() \n endfunction"
+vim.cmd "function! ToggleTrans(a,b,c,d) \n NvimToggleTrans \n endfunction"
 vim.cmd "function! CloseAll(a,b,c,d) \n q \n endfunction"
 vim.cmd "function! Split(a,b,c,d) \n vsplit \n endfunction"
 vim.cmd "function! Run(a,b,c,d) \n lua require('core.functions').build_run() \n endfunction"
@@ -86,6 +87,7 @@ M.getTabline = function()
     run = "%#BuffLineRun# %@Run@" .. "󰀂  "
   end
   local button = "%#BufflineButton# %@ToggleTheme@" .. "󱥚  "
+  local trans = "%#BufflineTrans# %@ToggleTrans@" .. "󱡓  "
   local split = "%#BuffLineSplit# %@Split@" .. "  "
   local closebutton = "%#BufflineCloseButton# %@CloseAll@" .. "󰅜 "
   local counter = 0
@@ -109,7 +111,7 @@ M.getTabline = function()
   else
     treespace = "%#BufflineTree#" .. string.rep(" ", treeWidth())
   end
-  return treespace .. buffstart .. buffline .. "%=" .. run .. split .. button .. closebutton
+  return treespace .. buffstart .. buffline .. "%=" .. run .. split .. trans .. button .. closebutton
 end
 
 M.setup = function()

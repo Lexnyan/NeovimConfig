@@ -26,7 +26,7 @@ M.dressing = function()
       backend = { "telescope", "buildtin" },
       buildtin = {
         win_options = {
-          winbled = 0,
+          winblend = 0,
         },
       },
     },

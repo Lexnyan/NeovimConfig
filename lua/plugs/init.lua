@@ -151,15 +151,15 @@ lazy.setup({
     lazy = true,
   },
 
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    opts = {},
-    event = "BufReadPost",
-    config = function()
-      require("plugs.ui.indent")
-    end
-  },
+  -- {
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   main = "ibl",
+  --   opts = {},
+  --   event = "BufReadPost",
+  --   config = function()
+  --     require("plugs.ui.indent")
+  --   end
+  -- },
 
   {
     'nvim-tree/nvim-tree.lua',
@@ -306,15 +306,6 @@ lazy.setup({
     },
     config = function()
       require("plugs.ui.alpha")
-    end
-  },
-
-  {
-    "chadcat7/prism",
-    lazy = true,
-    event = "UIEnter",
-    config = function()
-      require("plugs.ui.prism")
     end
   },
 

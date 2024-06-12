@@ -54,18 +54,19 @@ cmp.setup({
 
   window = {
     completion = {
-      border = "single",
+      border = "solid",
       scrollbar = false,
       padding = 1,
       winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None"
     },
     documentation = {
-      border = "single",
+      border = "solid",
       scrollbar = false,
-      padding = 1,
+      padding = 0,
       winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None"
     }
   },
+
   mapping = cmp.mapping.preset.insert({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<Esc>'] = cmp.mapping.abort(),

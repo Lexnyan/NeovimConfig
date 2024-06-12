@@ -12,7 +12,7 @@ map('n', '<C-n>', ':NvimTreeToggle<cr>', { noremap = true, silent = true }) -- A
 --map("n", "<leader>fb", ":Telescope buffers<cr>", { noremap = true, silent = true })    -- Buscar buffers (archivos abiertos)
 --map("n", "<leader>fh", ":Telescope help_tags<cr>", { noremap = true, silent = true })  -- Buscar etiquetas de ayuda
 --map("n", "<leader>fr", ":Telescope live_grep<cr>", { noremap = true, silent = true })  -- Buscar coincidencias en vivo
-map("n", "<leader>ft", ":PrismTelescope<CR>", { noremap = true, silent = true })
+map("n", "<leader>ft", ":NvimTheme<CR>", { noremap = true, silent = true })
 
 -- LspSaga (funciones avanzadas de LSP para navegación)
 map("n", "K", ":Lspsaga hover_doc<CR>", { noremap = true, silent = true }) -- Mostrar documentación flotante para el símbolo bajo el cursor

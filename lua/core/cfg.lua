@@ -77,6 +77,4 @@ M.dashboard = {
   }
 }
 
-M.customSchemes = require("core.colors")
-
 return M

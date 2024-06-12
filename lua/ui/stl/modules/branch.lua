@@ -5,7 +5,7 @@ local M = function()
 
   local git_status = vim.b.gitsigns_status_dict
 
-  local branch_name = "  " .. git_status.head .. " "
+  local branch_name = "  " .. git_status.head .. " "
 
   return "%#StalineBranch#" .. branch_name
 end

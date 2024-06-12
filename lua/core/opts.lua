@@ -1,4 +1,6 @@
 -- NOTE: Neovim options
+
+vim.loader.enable()
 local config = require("core.cfg")
 local opt = vim.opt
 local o = vim.o
@@ -54,6 +56,8 @@ g["loaded_ruby_provider"] = 0
 
 g.toggle_cmp = true
 g.code_action_menu_window_border = 'single'
-g.currentTheme = config.colorscheme
-g.theme_cache = vim.fn.stdpath "data" .. "/colors_data/"
+g.NvimTheme = "onedark"
+g.themeCache = vim.fn.stdpath "data" .. "/colors_data/"
+g.transparency = false
+g.loadNvimTheme = true
 g.statusStyle = config.statusstyle
