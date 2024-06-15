@@ -125,4 +125,3 @@ end, {})
 vim.api.nvim_create_user_command("Ranger", function()
   require("core.utils").Ranger()
 end, {})
-
