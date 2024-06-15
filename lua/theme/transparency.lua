@@ -183,4 +183,8 @@ M.RenameBorder = {
   bg = "NONE",
 }
 
+M.Alphaheader = {
+  bg = "NONE",
+}
+
 return M

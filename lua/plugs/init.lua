@@ -122,6 +122,7 @@ lazy.setup({
           require "plugs.ts.rainbow"
         end
       },
+
       {
         "windwp/nvim-ts-autotag",
         ft = { "html", "javascript", "jsx", "typescript", "tsx", "svelte", "vue", "xml", "markdown" },
@@ -151,15 +152,20 @@ lazy.setup({
     lazy = true,
   },
 
-  -- {
-  --   "lukas-reineke/indent-blankline.nvim",
-  --   main = "ibl",
-  --   opts = {},
-  --   event = "BufReadPost",
-  --   config = function()
-  --     require("plugs.ui.indent")
-  --   end
-  -- },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    event = { "BufReadPost", "BufNewFile" },
+    dependencies = {
+      {
+        "echasnovski/mini.indentscope",
+        opts = { symbol = "│" },
+      },
+    },
+    opts = function()
+      return require("plugs.ts.blankline")
+    end,
+  },
 
   {
     'nvim-tree/nvim-tree.lua',

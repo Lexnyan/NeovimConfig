@@ -61,6 +61,7 @@ local servers = {
   "texlab",
   "intelephense",
   "jsonls",
+  "lemminx",
 }
 
 for _, k in ipairs(servers) do

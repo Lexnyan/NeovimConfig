@@ -3,11 +3,11 @@ local utils = require("core.utils")
 
 return {
   ["@annotation"] = { fg = colors.base0F },
-  ["@attribute"] = { fg = colors.base0A },
+  ["@attribute"] = { fg = colors.base0A, italic = true },
   ["@character"] = { fg = colors.base08 },
   ["@constructor"] = { fg = colors.base0C },
   ["@error"] = { fg = colors.base08 },
-  ["@definition"] = { sp = colors.base04, underline = true },
+  ["@definition"] = { sp = colors.base04 },
   ["@scope"] = { bold = true },
   ["@property"] = { fg = colors.base08 },
   ["@operator"] = { fg = colors.base05 },
@@ -38,9 +38,9 @@ return {
   ["@tag.delimiter"] = { fg = colors.base0F },
 
   ["@text"] = { fg = colors.base05 },
-  ["@text.emphasis"] = { fg = colors.base09 },
+  ["@text.emphasis"] = { fg = colors.base09, italic = true },
   ["@text.strike"] = { fg = colors.base0F, strikethrough = true },
-  ["@string.special.url"] = { fg = colors.base09, underline = true },
+  ["@string.special.url"] = { fg = colors.base09, italic = true },
   ["@type.builtin"] = { fg = colors.base0A },
   ["@number.float"] = { fg = colors.base09 },
 
@@ -48,9 +48,9 @@ return {
   ["@variable.builtin"] = { fg = colors.base09 },
   ["@variable.member"] = { fg = colors.base08 },
   ["@variable.member.key"] = { fg = colors.base08 },
-  ["@variable.parameter"] = { fg = colors.base08 },
+  ["@variable.parameter"] = { fg = colors.base08, italic = true },
 
-  ["@keyword"] = { fg = colors.base0E },
+  ["@keyword"] = { fg = colors.base0E, italic = true },
   ["@keyword.function"] = { fg = colors.base0E },
   ["@keyword.operator"] = { fg = colors.base0E },
   ["@keyword.return"] = { fg = colors.base0E },
@@ -63,10 +63,10 @@ return {
   ["@keyword.directive.define"] = { fg = colors.base0E },
   ["@keyword.directive"] = { fg = colors.base0A },
 
-  ["@markup.heading"] = { fg = colors.base0D },
+  ["@markup.heading"] = { fg = colors.base0D, bold = true },
   ["@markup.raw"] = { fg = colors.base09 },
   ["@markup.link"] = { fg = colors.base08 },
-  ["@markup.link.url"] = { fg = colors.base09, underline = true },
+  ["@markup.link.url"] = { fg = colors.base09, italic = true },
   ["@markup.link.label"] = { fg = colors.base0C },
   ["@markup.list"] = { fg = colors.base08 },
   ["@markup.strong"] = { bold = true },
@@ -74,15 +74,15 @@ return {
   ["@markup.quote"] = { bg = colors.lighter },
   ["@markup.strikethrough"] = { strikethrough = true },
 
-  ["@comment"] = { fg = colors.base05 },
-  ["@comment.todo"] = { fg = utils.blend(colors.foreground, colors.background, 0.2), bg = colors.foreground },
+  ["@comment"] = { fg = colors.base05, italic = true },
+  ["@comment.todo"] = { fg = colors.foreground, bg = colors.base01 },
   ["@comment.warning"] = { fg = colors.lighter, bg = colors.base09 },
   ["@comment.note"] = { fg = colors.lighter, bg = colors.foreground },
   ["@comment.danger"] = { fg = colors.lighter, bg = colors.red },
 
   ["@diff.plus"] = { fg = colors.green },
   ["@diff.minus"] = { fg = colors.red },
-  ["@diff.delta"] = { fg = utils.blend(colors.foreground, colors.background, 0.2) },
+  ["@diff.delta"] = { fg = colors.foreground },
 
   -- TreesitterContext
   TreesitterContext = { bg = colors.base05, bold = true },
