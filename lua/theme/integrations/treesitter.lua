@@ -90,11 +90,11 @@ return {
   TreesitterContextLineNumber = { fg = utils.blend(colors.foreground, colors.background, 0.2), bold = true },
 
   -- Rainbow Brackets
-  -- RainbowDelimiterRed = { fg = colors.red },
-  -- RainbowDelimiterYellow = { fg = utils.mix(colors.red, colors.green, 0.5) },
-  -- RainbowDelimiterBlue = { fg = colors.blue },
-  -- RainbowDelimiterOrange = { fg = utils.mix(colors.red, utils.mix(colors.red, colors.green, 0.5), 0.5) },
-  -- RainbowDelimiterGreen = { fg = colors.green },
-  -- RainbowDelimiterViolet = { fg = utils.mix(colors.red, colors.blue, 0.5) },
-  -- RainbowDelimiterCyan = { fg = utils.mix(colors.foreground, colors.blue, 0.7) },
+  RainbowDelimiterRed = { fg = colors.red },
+  RainbowDelimiterYellow = { fg = colors.base0A },
+  RainbowDelimiterBlue = { fg = colors.blue },
+  RainbowDelimiterOrange = { fg = colors.base09 },
+  RainbowDelimiterGreen = { fg = colors.green },
+  RainbowDelimiterViolet = { fg = colors.base0E },
+  RainbowDelimiterCyan = { fg = colors.base0C },
 }

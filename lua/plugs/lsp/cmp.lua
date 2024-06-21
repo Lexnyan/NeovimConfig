@@ -56,7 +56,7 @@ cmp.setup({
     completion = {
       border = "solid",
       scrollbar = false,
-      padding = 1,
+      padding = 0,
       winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None"
     },
     documentation = {
