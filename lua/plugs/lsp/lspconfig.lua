@@ -27,21 +27,6 @@ M.capabilities.textDocument.completion.completionItem = {
   },
 }
 
-vim.diagnostic.config({
-  virtual_text = false,
-  underline = true,
-  update_in_insert = false,
-  severity_sort = true,
-  signs = { text = { [1] = " ", [2] = " ", [3] = " ", [4] = "󰌵 " } },
-  float = {
-    suffix = "",
-    header = { "  Diagnostics", "String" },
-    prefix = function(_, _, _)
-      return "  ", "String"
-    end,
-  },
-})
-
 local signs = { Error = " ", Warn = " ", Hint = "󰌵 ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type

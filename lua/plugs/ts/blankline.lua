@@ -1,5 +1,16 @@
+local highlight = {
+  "RainbowRed",
+  "RainbowYellow",
+  "RainbowBlue",
+  "RainbowOrange",
+  "RainbowGreen",
+  "RainbowViolet",
+  "RainbowCyan",
+}
+
 return {
   indent = {
+    highlight = highlight,
     char = "│",
     tab_char = "│",
   },

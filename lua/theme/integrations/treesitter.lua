@@ -97,4 +97,13 @@ return {
   RainbowDelimiterGreen = { fg = colors.green },
   RainbowDelimiterViolet = { fg = colors.base0E },
   RainbowDelimiterCyan = { fg = colors.base0C },
+
+  -- IndentBlankline
+  RainbowRed = { fg = colors.red },
+  RainbowYellow = { fg = colors.base0A },
+  RainbowBlue = { fg = colors.blue },
+  RainbowOrange = { fg = colors.base09 },
+  RainbowGreen = { fg = colors.green },
+  RainbowViolet = { fg = colors.base0E },
+  RainbowCyan = { fg = colors.base0C },
 }
