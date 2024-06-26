@@ -1,28 +1,22 @@
 vim.g.mapleader = " "
-local map = vim.api.nvim_set_keymap
+local api = vim.api
+local map = api.nvim_set_keymap
 
--- Navegación
-map("n", "<C-a>", "gg<S-v>G", { noremap = true, silent = true })            -- Seleccionar todo el documento
-map('n', '<C-n>', ':NvimTreeToggle<cr>', { noremap = true, silent = true }) -- Alternar NvimTree (explorador de archivos)
---map('n', '<Tab>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
+-- Function to create mappings
+local function create_mapping(mode, lhs, rhs, opts)
+  opts = opts or {}
+  opts.noremap = opts.noremap == nil and true or opts.noremap
+  opts.silent = opts.silent == nil and true or opts.silent
+  map(mode, lhs, rhs, opts)
+end
 
--- Telescope (herramienta de búsqueda y navegación)
---map("n", "<leader>ff", ":Telescope find_files<cr>", { noremap = true, silent = true }) -- Buscar archivos
---map("n", "<leader>fg", ":Telescope oldfiles<cr>", { noremap = true, silent = true })   -- Buscar archivos recientes
---map("n", "<leader>fb", ":Telescope buffers<cr>", { noremap = true, silent = true })    -- Buscar buffers (archivos abiertos)
---map("n", "<leader>fh", ":Telescope help_tags<cr>", { noremap = true, silent = true })  -- Buscar etiquetas de ayuda
---map("n", "<leader>fr", ":Telescope live_grep<cr>", { noremap = true, silent = true })  -- Buscar coincidencias en vivo
-map("n", "<leader>ft", ":NvimTheme<CR>", { noremap = true, silent = true })
+-- Navigation
+create_mapping("n", "<C-a>", "gg<S-v>G")            -- Select entire document
+create_mapping('n', '<C-n>', ':NvimTreeToggle<cr>') -- Toggle NvimTree (file explorer)
+create_mapping("n", "<leader>ft", ":NvimTheme<CR>") -- Telescope Themes
 
--- LspSaga (funciones avanzadas de LSP para navegación)
-map("n", "K", ":Lspsaga hover_doc<CR>", { noremap = true, silent = true }) -- Mostrar documentación flotante para el símbolo bajo el cursor
---map("n", "<leader>e", ":Lspsaga diagnostic_jump_next<CR>", { noremap = true, silent = true })-
---map("n", "gi", ":Lspsaga finder<CR>", { noremap = true, silent = true })
---map("n", "gd", ":Lspsaga peek_definition<CR>", { noremap = true, silent = true })
+-- LspSaga (advanced LSP functions for navigation)
+create_mapping("n", "K", ":Lspsaga hover_doc<CR>") -- Show hover documentation for symbol under cursor
 
--- NerdCommenter (comentar/descomentar) con CTRL+/
-map("v", "<leader>cc", "<Plug>NERDCommenterToggle<cr>", { noremap = true }) -- Alternar comentarios en modo visual
---map("n", "<leader>c", "<Plug>NERDCommenterToggle<cr>", { noremap = true }) -- Alternar comentarios en modo normal
-
--- Markdown
---map('n', "<C-s>", "<Plug>MarkdownPreview<cr>", { noremap = true, silent = true })
+-- NerdCommenter (comment/uncomment) with CTRL+/
+create_mapping("v", "<leader>cc", "<Plug>NERDCommenterToggle<cr>") -- Toggle comments in visual mode
