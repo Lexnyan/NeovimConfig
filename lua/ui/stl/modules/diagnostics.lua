@@ -11,7 +11,7 @@ local M = function(m)
         ("%#StalineLspWarningIcon#" .. " " .. "%#StalineLspWarning#" .. warnings) or ""
     HINT = (hints and hints > 0) and
         ("%#StalineLspHintsIcon#" .. "󰌵 " .. "%#StalineLspHints#" .. hints) or ""
-    INFO = (info and info > 0) and ("%#StalineLspInfoIcon#" .. "i" .. "%#StalineLspInfo#" .. info)
+    INFO = (info and info > 0) and ("%#StalineLspInfoIcon#" .. " " .. "%#StalineLspInfo#" .. info)
         or ""
   elseif (m == 'fancy') then
     ERROR = (errors and errors > 0) and
@@ -20,7 +20,7 @@ local M = function(m)
         ("%#StalineLspWarningIcon#" .. " " .. "%#StalineLspWarning#" .. warnings) or ""
     HINT = (hints and hints > 0) and
         ("%#StalineLspHintsIcon#" .. "󰌵 " .. "%#StalineLspHints#" .. hints) or ""
-    INFO = (info and info > 0) and ("%#StalineLspInfoIcon#" .. "i" .. "%#StalineLspInfo#" .. info)
+    INFO = (info and info > 0) and ("%#StalineLspInfoIcon#" .. " " .. "%#StalineLspInfo#" .. info)
         or ""
   elseif (m == 'minimal') then
     ERROR = (errors and errors > 0) and
@@ -29,7 +29,7 @@ local M = function(m)
         ("%#StalineLspWarningMinimalIcon#" .. "  " .. "%#StalineLspMinimalWarning#" .. warnings .. " ") or ""
     HINT = (hints and hints > 0) and
         ("%#StalineLspHintsMinimalIcon#" .. " 󰌵 " .. "%#StalineLspMinimalHints#" .. hints .. " ") or ""
-    INFO = (info and info > 0) and ("%#StalineLspInfoMinimalIcon#" .. " i" .. "%#StalineLspMinimalInfo#" .. info .. " ")
+    INFO = (info and info > 0) and ("%#StalineLspInfoMinimalIcon#" .. "  " .. "%#StalineLspMinimalInfo#" .. info .. " ")
         or ""
   else
     return "F"
