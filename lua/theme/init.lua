@@ -1,93 +1,128 @@
 local M = {}
 
-M.getCurrentTheme = function()
-  local defaultThemeAvailable, defaultTheme = pcall(require, "theme.schemes." .. vim.g.NvimTheme)
-  if defaultThemeAvailable then
-    return defaultTheme
-  else
-    print("Not select theme")
+local function isThemeAvailable(themeName)
+  return pcall(require, "theme.schemes." .. themeName)
+end
+
+local function getDefaultTheme()
+  if vim.g.NvimTheme == nil then
+    vim.notify("No theme selected", vim.log.levels.WARN)
+    return nil
   end
+
+  local defaultThemeAvailable, defaultTheme = isThemeAvailable(vim.g.NvimTheme)
+  if not defaultThemeAvailable then
+    vim.notify("Failed to load default theme", vim.log.levels.ERROR)
+    return nil
+  end
+
+  return defaultTheme
 end
 
-M.loadThemeTable = function(themeName)
-  local themeTable = require("theme.integrations." .. themeName)
-  return themeTable
+local function loadThemeTable(themeName)
+  return require("theme.integrations." .. themeName)
 end
 
-local merge_tables = function(...)
+local function mergeTables(...)
   return vim.tbl_deep_extend("force", ...)
 end
 
-local tableToStr = function(highlightGroups)
+local function applyTransparency(highlightGroups)
+  if not vim.g.transparency then
+    return highlightGroups
+  end
+
+  local transparencyTheme = require("theme.transparency")
+  for key, transparencyValues in pairs(transparencyTheme) do
+    if highlightGroups[key] then
+      highlightGroups[key] = mergeTables(highlightGroups[key], transparencyValues)
+    end
+  end
+
+  return highlightGroups
+end
+
+local function highlightGroupToString(groupName, groupValues)
+  local options = ""
+  for optionName, optionValue in pairs(groupValues) do
+    local valueStr = ((type(optionValue)) == "boolean" or type(optionValue) == "number") and tostring(optionValue)
+        or '"' .. optionValue .. '"'
+    options = options .. optionName .. "=" .. valueStr .. ","
+  end
+  return "vim.api.nvim_set_hl(0, '" .. groupName .. "', {" .. options .. "})"
+end
+
+local function tableToStr(highlightGroups)
   local result = ""
-  if vim.g.transparency then
-    local transparencyTheme = require("theme.transparency")
-    for key, transparencyValues in pairs(transparencyTheme) do
-      if highlightGroups[key] then
-        highlightGroups[key] = merge_tables(highlightGroups[key], transparencyValues)
-      end
-    end
-  end
+  highlightGroups = applyTransparency(highlightGroups)
+
   for groupName, groupValues in pairs(highlightGroups) do
-    local groupNameStr = "'" .. groupName .. "',"
-    local options = ""
-    for optionName, optionValue in pairs(groupValues) do
-      local valueStr = ((type(optionValue)) == "boolean" or type(optionValue) == "number") and tostring(optionValue)
-          or '"' .. optionValue .. '"'
-      options = options .. optionName .. "=" .. valueStr .. ","
-    end
-    result = result .. "vim.api.nvim_set_hl(0," .. groupNameStr .. "{" .. options .. "})"
+    result = result .. highlightGroupToString(groupName, groupValues)
   end
+
   return result
 end
 
-local serializeTableToCache = function(fileName, tableData)
+local function serializeTableToCache(fileName, tableData)
   local serializedFunction = "return string.dump(function()" .. tableToStr(tableData) .. "end, true)"
   local file = io.open(vim.g.themeCache .. fileName, "wb")
-  if file then
-    ---@diagnostic disable-next-line: deprecated
-    file:write(loadstring(serializedFunction)())
-    file:close()
+
+  if not file then
+    vim.notify("Failed to open cache file: " .. fileName, vim.log.levels.ERROR)
+    return
   end
+
+  ---@diagnostic disable-next-line: deprecated
+  file:write(loadstring(serializedFunction)())
+  file:close()
 end
 
-local compileThemes = function()
+local function compileThemes()
   if not vim.loop.fs_stat(vim.g.themeCache) then
     vim.fn.mkdir(vim.g.themeCache, "p")
   end
 
   local allThemes = {}
-  for _, file in ipairs(vim.fn.readdir(vim.fn.stdpath("config") .. "/lua/theme/integrations")) do
-    for key, themeData in pairs(M.loadThemeTable(vim.fn.fnamemodify(file, ":r"))) do
-      allThemes[key] = themeData
+  local themeDir = vim.fn.stdpath("config") .. "/lua/theme/integrations"
+
+  for _, file in ipairs(vim.fn.readdir(themeDir)) do
+    local themeName = vim.fn.fnamemodify(file, ":r")
+    local themeData = loadThemeTable(themeName)
+
+    for key, data in pairs(themeData) do
+      allThemes[key] = data
     end
   end
 
   serializeTableToCache("allThemes", allThemes)
 end
 
-M.loadThemes = function()
+local function applyTerminalColors(colorScheme)
+  local colors = {
+    "base01", "base08", "base0B", "base0A", "base0D", "base0E", "base0C", "base05", "base03", "base08",
+    "base0B", "base0A", "base0D", "base0E", "base0C", "base07"
+  }
+
+  for i, color in ipairs(colors) do
+    vim.g["terminal_color_" .. (i - 1)] = colorScheme[color]
+  end
+end
+
+function M.getCurrentTheme()
+  return getDefaultTheme()
+end
+
+function M.loadThemeTable(themeName)
+  return loadThemeTable(themeName)
+end
+
+function M.loadThemes()
   compileThemes()
   dofile(vim.g.themeCache .. "allThemes")
 end
 
-M.applyTerminalColors = function(colorScheme)
-  vim.g.terminal_color_0 = colorScheme.base01
-  vim.g.terminal_color_1 = colorScheme.base08
-  vim.g.terminal_color_2 = colorScheme.base0B
-  vim.g.terminal_color_3 = colorScheme.base0A
-  vim.g.terminal_color_4 = colorScheme.base0D
-  vim.g.terminal_color_5 = colorScheme.base0E
-  vim.g.terminal_color_6 = colorScheme.base0C
-  vim.g.terminal_color_7 = colorScheme.base05
-  vim.g.terminal_color_8 = colorScheme.base03
-  vim.g.terminal_color_9 = colorScheme.base08
-  vim.g.terminal_color_10 = colorScheme.base0B
-  vim.g.terminal_color_11 = colorScheme.base0A
-  vim.g.terminal_color_12 = colorScheme.base0D
-  vim.g.terminal_color_13 = colorScheme.base0E
-  vim.g.terminal_color_14 = colorScheme.base0C
-  vim.g.terminal_color_15 = colorScheme.base07
+function M.applyTerminalColors(colorScheme)
+  applyTerminalColors(colorScheme)
 end
 
 return M
