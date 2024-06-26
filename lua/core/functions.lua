@@ -92,13 +92,6 @@ local function lazygit_toggle()
 end
 
 local function ranger_toggle()
-  local status_ok, toggleterm = pcall(require, "toggleterm")
-
-  if not status_ok then
-    notify("toggleterm.nvim isn't installed!")
-    return
-  end
-
   if vim.fn.executable("ranger") == 0 then
     notify("ranger isn't installed")
     return
