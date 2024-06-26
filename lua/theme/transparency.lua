@@ -1,190 +1,106 @@
-local colors = require("theme").getCurrentTheme()
+local theme = require("theme")
 local utils = require("core.utils")
 
+local colors = theme and theme.getCurrentTheme and theme.getCurrentTheme()
+if not colors then
+  return { error = "Colors not found" }
+end
+
 local M = {}
--- General ---
-local normal = {
-  "Normal",
-  "NormalFloat",
-  "WinBar",
-  "WinBarNC",
-  "Folded",
-  "FoldColumn",
-  "LineNr",
-  "CursorColumn",
-  "ColorColumn",
-  "SignColumn",
-  "CursorLine",
-  "MsgArea",
-}
 
-M.WinSeparator = {
-  fg = utils.blend(colors.foreground, colors.background, 0.1),
-  bg = "NONE",
-}
+local function configure_general()
+  local general_highlights = {
+    "Normal", "NormalFloat", "WinBar", "WinBarNC", "Folded", "FoldColumn",
+    "LineNr", "CursorColumn", "ColorColumn", "SignColumn", "CursorLine", "MsgArea"
+  }
 
-for _, normal_hl in ipairs(normal) do
-  M[normal_hl] = {
+  for _, hl in ipairs(general_highlights) do
+    M[hl] = { bg = "NONE" }
+  end
+
+  M.WinSeparator = {
+    fg = utils.blend(colors.foreground, colors.background, 0.1),
     bg = "NONE",
   }
 end
 
---- Telescope ---
-local telescope = {
-  "TelescopeNormal",
-  "TelescopePrompt",
-  "TelescopeBorder",
-  "TelescopeResults",
-  "TelescopePromptNormal",
-  "TelescopePromptPrefix",
-  "TelescopeSelection",
-}
+local function configure_telescope()
+  local telescope_highlights = {
+    "TelescopeNormal", "TelescopePrompt", "TelescopeBorder", "TelescopeResults",
+    "TelescopePromptNormal", "TelescopePromptPrefix", "TelescopeSelection"
+  }
 
-M.TelescopePromptBorder = {
-  fg = utils.blend(colors.foreground, colors.background, 0.1),
-  bg = "NONE",
-}
+  for _, hl in ipairs(telescope_highlights) do
+    M[hl] = { bg = "NONE" }
+  end
 
-M.TelescopePreviewBorder = {
-  fg = utils.blend(colors.foreground, colors.background, 0.1),
-  bg = "NONE",
-}
+  local blended_fg = utils.blend(colors.foreground, colors.background, 0.1)
+  M.TelescopePromptBorder = { fg = blended_fg, bg = "NONE" }
+  M.TelescopePreviewBorder = { fg = blended_fg, bg = "NONE" }
+  M.TelescopeResultsBorder = { fg = blended_fg, bg = "NONE" }
+end
 
-M.TelescopeResultsBorder = {
-  fg = utils.blend(colors.foreground, colors.background, 0.1),
-  bg = "NONE",
-}
+local function configure_whichkey()
+  local whichkey_highlights = {
+    "WhichKey", "WhichKeyGroup", "WhichKeyDesc", "WhichKeyFloat"
+  }
 
-for _, telescope_hl in ipairs(telescope) do
-  M[telescope_hl] = {
+  for _, hl in ipairs(whichkey_highlights) do
+    M[hl] = { bg = "NONE" }
+  end
+end
+
+local function configure_cmp()
+  local cmp_highlights = {
+    "CmpNormal", "CmpItemAbbr", "CmpItemAbbrDeprecated", "CmpItemMenu", "Pmenu"
+  }
+
+  for _, hl in ipairs(cmp_highlights) do
+    M[hl] = { bg = "NONE" }
+  end
+
+  M.CmpBorder = {
+    fg = utils.blend(colors.foreground, colors.background, 0.1),
     bg = "NONE",
+  }
+  M.CmpItemAbbrMatch = {
+    bg = "NONE",
+    bold = true,
   }
 end
 
---- NeoTree ---
-local tree = {
-  "NeoTreeNormal",
-  "NeoTreeNormalNC",
-}
-
-M.NeoTreeWinSeparator = {
-  fg = utils.blend(colors.foreground, colors.background, 0.1),
-  bg = "NONE",
-}
-
-for _, tree_hl in ipairs(tree) do
-  M[tree_hl] = {
-    bg = "NONE",
+local function configure_noice()
+  local noice_highlights = {
+    "NoiceMini", "NoiceCmdlinePopup", "NoiceCmdlinePopupBorder", "NoiceCmdlinePopupBorderSearch",
+    "NoiceCmdlinePopupTitle", "NotifyBackground", "NotifyINFOBorder", "NotifyWARNBorder",
+    "NotifyERRORBorder", "NotifyDEBUGBorder", "NotifyTRACEBorder", "NotifyLogTime",
+    "NotifyERRORIcon", "NotifyWARNIcon", "NotifyINFOIcon", "NotifyDEBUGIcon", "NotifyTRACEIcon",
+    "NotifyERRORTitle", "NotifyWARNTitle", "NotifyINFOTitle", "NotifyDEBUGTitle", "NotifyTRACETitle",
+    "NotifyERRORBody", "NotifyWARNBody", "NotifyINFOBody", "NotifyDEBUGBody", "NotifyTRACEBody"
   }
+
+  for _, hl in ipairs(noice_highlights) do
+    M[hl] = { bg = "NONE" }
+  end
 end
 
---- WhichKey ---
-local whichkey = {
-  "WhichKey",
-  "WhichKeyGroup",
-  "WhichKeyDesc",
-  "WhichKeyFloat",
-}
-
-for _, whichkey_hl in ipairs(whichkey) do
-  M[whichkey_hl] = {
-    bg = "NONE",
-  }
+local function configure_miscellaneous()
+  M.TreesitterContext = { bg = "NONE" }
+  M.NvimTreeNormal = { bg = "NONE" }
+  M.NvimTreeNormalNC = { bg = "NONE" }
+  M.SagaNormal = { bg = "NONE" }
+  M.SagaBorder = { bg = "NONE" }
+  M.RenameNormal = { bg = "NONE" }
+  M.RenameBorder = { bg = "NONE" }
+  M.Alphaheader = { bg = "NONE" }
 end
 
---- CMP ---
-local cmp = {
-  "CmpNormal",
-  "CmpItemAbbr",
-  "CmpItemAbbrDeprecated",
-  "CmpItemMenu",
-  "Pmenu",
-}
-
-M.CmpBorder = {
-  fg = utils.blend(colors.foreground, colors.background, 0.1),
-  bg = "NONE",
-}
-
-M.CmpItemAbbrMatch = {
-  bg = "NONE",
-  bold = true,
-}
-
-for _, cmp_hl in ipairs(cmp) do
-  M[cmp_hl] = {
-    bg = "NONE",
-  }
-end
-
---- Noice ---
-local noice = {
-  "NoiceMini",
-  "NoiceCmdlinePopup",
-  "NoiceCmdlinePopupBorder",
-  "NoiceCmdlinePopupBorderSearch",
-  "NoiceCmdlinePopupTitle",
-  "NotifyBackground",
-  "NotifyINFOBorder",
-  "NotifyWARNBorder",
-  "NotifyERRORBorder",
-  "NotifyDEBUGBorder",
-  "NotifyTRACEBorder",
-  "NotifyLogTime",
-  "NotifyERRORIcon",
-  "NotifyWARNIcon",
-  "NotifyINFOIcon",
-  "NotifyDEBUGIcon",
-  "NotifyTRACEIcon",
-  "NotifyERRORTitle",
-  "NotifyWARNTitle",
-  "NotifyINFOTitle",
-  "NotifyDEBUGTitle",
-  "NotifyTRACETitle",
-  "NotifyERRORBody",
-  "NotifyWARNBody",
-  "NotifyINFOBody",
-  "NotifyDEBUGBody",
-  "NotifyTRACEBody",
-}
-
-for _, noice_hl in ipairs(noice) do
-  M[noice_hl] = {
-    bg = "NONE",
-  }
-end
-
--- Treesitter Context --
-M.TreesitterContext = {
-  bg = "NONE",
-}
-
-M.NvimTreeNormal = {
-  bg = "NONE",
-}
-
-M.NvimTreeNormalNC = {
-  bg = "NONE",
-}
-
-M.SagaNormal = {
-  bg = "NONE",
-}
-
-M.SagaBorder = {
-  bg = "NONE",
-}
-
-M.RenameNormal = {
-  bg = "NONE",
-}
-
-M.RenameBorder = {
-  bg = "NONE",
-}
-
-M.Alphaheader = {
-  bg = "NONE",
-}
+-- Run all configuration
+configure_general()
+configure_telescope()
+configure_whichkey()
+configure_cmp()
+configure_noice()
+configure_miscellaneous()
 
 return M
