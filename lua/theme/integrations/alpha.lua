@@ -1,9 +1,8 @@
-local theme = require("theme")
+local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
-local colors = theme and theme.getCurrentTheme and theme.getCurrentTheme()
 if not colors then
-  return { error = "Colors not found" }
+  return { error = "colors not found" }
 end
 
 return {
