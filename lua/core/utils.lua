@@ -1,38 +1,46 @@
 local M = {}
 
+local function fileExists(file)
+  if not file or file == "" then
+    return false
+  end
+  local lines = vim.fn.readfile(file)
+  if not lines then
+    vim.notify("Cannot read file: " .. file, vim.log.levels.ERROR)
+    return false
+  end
+  return true, lines
+end
+
 function M.is_available(plugin)
   local lazy_config_avail, lazy_config = pcall(require, "lazy.core.config")
   return lazy_config_avail and lazy_config.spec.plugins[plugin] ~= nil
 end
 
 function M.replaceword(middle, old, new, file)
-  if not file or file == "" then
-    return
-  end
-
-  local lines = vim.fn.readfile(file)
-  if not lines then
-    vim.notify("Cannot read file: " .. file, vim.log.levels.ERROR)
+  local exists, lines = fileExists(file)
+  if not exists or not lines then
     return
   end
 
   local new_lines = {}
   local found = false
+
   for _, line in ipairs(lines) do
+    local new_line = line
+
     if line:find(middle) then
-      if line:find(old) then
-        table.insert(new_lines, middle .. " = " .. new)
-      else
-        table.insert(new_lines, middle .. " = " .. old)
-      end
+      new_line = middle .. " = " .. (line:find(old) and new or old)
       found = true
-    else
-      table.insert(new_lines, line)
     end
+
+    table.insert(new_lines, new_line)
   end
+
   if not found then
     table.insert(new_lines, middle .. " = " .. new)
   end
+
   vim.fn.writefile(new_lines, file)
 end
 
