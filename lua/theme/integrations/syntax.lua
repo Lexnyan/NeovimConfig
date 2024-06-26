@@ -1,5 +1,9 @@
 local colors = require("theme").getCurrentTheme()
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   Boolean = { fg = colors.base09 },
   Character = { fg = colors.base08 },

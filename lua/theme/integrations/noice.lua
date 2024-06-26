@@ -1,6 +1,10 @@
 local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   NoiceMini = { bg = colors.darker },
   NoiceCmdlinePopup = { bg = colors.darker },

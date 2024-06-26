@@ -1,6 +1,10 @@
 local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   -- BufflineBufOnActive = { fg = colors.foreground, bg = colors.darker },
   -- BufflineBufOnInactive = { fg = utils.blend(colors.foreground, colors.lighter, 0.45), bg = utils.blend(colors.lighter, colors.foreground, 0.93) },

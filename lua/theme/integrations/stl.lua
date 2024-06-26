@@ -1,6 +1,10 @@
 local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   StalineFolderIcon = { bg = colors.red, fg = colors.base00 },
   StalineFolderSep = { bg = colors.base00, fg = colors.red },

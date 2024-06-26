@@ -1,6 +1,10 @@
 local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   WhichKey = { fg = colors.blue, bold = true },
   WhichKeySeparator = { fg = utils.blend(colors.foreground, colors.background, 0.2) },

@@ -1,6 +1,10 @@
 local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   ["@annotation"] = { fg = colors.base0F },
   ["@attribute"] = { fg = colors.base0A, italic = true },

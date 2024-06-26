@@ -1,6 +1,10 @@
 local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   NvimTreeNormal = { fg = colors.foreground, bg = colors.darker },
   NvimTreeNormalNC = { fg = colors.foreground, bg = colors.darker },

@@ -1,5 +1,9 @@
 local colors = require("theme").getCurrentTheme()
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   ["@lsp.type.class"] = { link = "Structure" },
   ["@lsp.type.decorator"] = { link = "Function" },

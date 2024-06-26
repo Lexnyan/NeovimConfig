@@ -1,5 +1,9 @@
 local colors = require("theme").getCurrentTheme()
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   TelescopeNormal = { bg = colors.darker },
   TelescopeBorder = { fg = colors.darker, bg = colors.darker },

@@ -1,6 +1,10 @@
 local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   LazyH1 = { bg = colors.green, fg = colors.background },
   LazyButton = { bg = utils.blend(colors.foreground, colors.background, 0.1), fg = colors.foreground },

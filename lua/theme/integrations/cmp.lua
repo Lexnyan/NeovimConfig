@@ -1,6 +1,10 @@
 local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   CmpItemKindArray = { fg = colors.darker, bg = colors.base0B },
   CmpItemKindBoolean = { fg = colors.darker, bg = colors.base0A },

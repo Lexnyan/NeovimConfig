@@ -1,6 +1,10 @@
 local colors = require("theme").getCurrentTheme()
 local utils = require("core.utils")
 
+if not colors then
+  return { error = "colors not found" }
+end
+
 return {
   TodoBgFix = { fg = colors.lighter, bg = colors.red, bold = true },
   TodoBgHack = { fg = colors.lighter, bg = utils.mix(colors.red, colors.green, 0.5), bold = true },
