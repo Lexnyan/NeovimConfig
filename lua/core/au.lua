@@ -1,55 +1,81 @@
 local custom_autocmd_group = vim.api.nvim_create_augroup("CustomAutocmdGroup", { clear = true })
 
--- Code formatting when saving
+-- Utilities
+local function is_directory(path)
+  return vim.fn.isdirectory(path) == 1
+end
+
+local function should_format_buffer()
+  for _, client in ipairs(vim.lsp.get_active_clients()) do
+    if client.attached_buffers[vim.api.nvim_get_current_buf()] then
+      return true
+    end
+  end
+  return false
+end
+
+local function should_skip_alpha()
+  if vim.fn.argc() > 0 or vim.fn.line2byte("$") ~= -1 or not vim.o.modifiable then
+    return true
+  end
+
+  for _, arg in pairs(vim.v.argv) do
+    if arg == "-b" or arg == "-c" or vim.startswith(arg, "+") or arg == "-S" then
+      return true
+    end
+  end
+
+  return false
+end
+
+local function reload_neovim_config()
+  local fp = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":r")
+  local app_name = vim.env.NVIM_APPNAME and vim.env.NVIM_APPNAME or "nvim"
+  local module = string.gsub(fp, "^.*/" .. app_name .. "/lua/", ""):gsub("/", ".")
+  vim.cmd("silent source %")
+  if vim.g.loadNvimTheme then
+    require("plenary.reload").reload_module("theme")
+  end
+  require("plenary.reload").reload_module(module)
+  if vim.g.loadNvimTheme then
+    require("theme").loadThemes()
+  end
+end
+
+-- Autocommands
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   callback = function()
-    for _, client in ipairs(vim.lsp.get_active_clients()) do
-      if client.attached_buffers[vim.api.nvim_get_current_buf()] then
-        vim.lsp.buf.format()
-        return
-      end
+    if should_format_buffer() then
+      vim.lsp.buf.format()
     end
   end
 })
 
--- Load theme when starting UI
 vim.api.nvim_create_autocmd({ "UIEnter" }, {
   callback = function()
     if vim.g.loadNvimTheme then
       dofile(vim.g.themeCache .. "allThemes")
     end
-    local should_skip = false
-    if vim.fn.argc() > 0 or vim.fn.line2byte "$" ~= -1 or not vim.o.modifiable then
-      should_skip = true
-    else
-      for _, arg in pairs(vim.v.argv) do
-        if arg == "-b" or arg == "-c" or vim.startswith(arg, "+") or arg == "-S" then
-          should_skip = true
-          break
-        end
-      end
+
+    if should_skip_alpha() then
+      return
     end
-    if not should_skip then vim.cmd("Alpha") end
+
+    vim.cmd("Alpha")
   end
 })
 
--- Open the file tree when entering Vim
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function(data)
-    local directory = vim.fn.isdirectory(data.file) == 1
-
-    if not directory then
+    if not is_directory(data.file) then
       return
     end
-    -- Change to directory
-    vim.cmd.cd(data.file)
 
-    -- Open the file tree
+    vim.cmd.cd(data.file)
     require("nvim-tree.api").tree.open()
   end
 })
 
--- Open floating window for LSP diagnostics
 vim.api.nvim_create_autocmd("CursorHold", {
   pattern = "*",
   callback = function()
@@ -58,7 +84,6 @@ vim.api.nvim_create_autocmd("CursorHold", {
   desc = "Open Float Window for LSP Diagnostics",
 })
 
--- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = custom_autocmd_group,
   pattern = "*",
@@ -68,7 +93,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight yanked text",
 })
 
--- Close help, manual, quickfix, and floating DAP windows with 'q'
 vim.api.nvim_create_autocmd("BufWinEnter", {
   group = custom_autocmd_group,
   callback = function()
@@ -83,7 +107,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   desc = "Make q close help, man, quickfix, dap floats",
 })
 
--- Do not list quickfix buffer
 vim.api.nvim_create_autocmd("FileType", {
   group = custom_autocmd_group,
   pattern = "qf",
@@ -93,27 +116,14 @@ vim.api.nvim_create_autocmd("FileType", {
   desc = "Don't list quickfix buffer",
 })
 
--- Reload Neovim configuration on save
 vim.api.nvim_create_autocmd("BufWritePost", {
   group = custom_autocmd_group,
   pattern = vim.fn.stdpath("config") .. "/lua/*.lua",
-  callback = function()
-    local fp = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":r")
-    local app_name = vim.env.NVIM_APPNAME and vim.env.NVIM_APPNAME or "nvim"
-    local module = string.gsub(fp, "^.*/" .. app_name .. "/lua/", ""):gsub("/", ".")
-    vim.cmd("silent source %")
-    if vim.g.loadNvimTheme then
-      require("plenary.reload").reload_module("theme")
-    end
-    require("plenary.reload").reload_module(module)
-    if vim.g.loadNvimTheme then
-      require("theme").loadThemes()
-    end
-  end,
+  callback = reload_neovim_config,
   desc = "Reload neovim config on save",
 })
 
--- Simplified user commands
+-- User commands
 vim.api.nvim_create_user_command("NvimTheme", function()
   require("theme.pick").setup()
 end, {})
@@ -125,3 +135,4 @@ end, {})
 vim.api.nvim_create_user_command("Ranger", function()
   require("core.utils").Ranger()
 end, {})
+
