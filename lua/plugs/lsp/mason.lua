@@ -26,5 +26,14 @@ local options = {
 mason.setup(options)
 
 require("mason-lspconfig").setup {
-  ensure_installed = { "lua_ls", "tsserver", "html", "cssls", "emmet_ls", "pyright", "clangd", "omnisharp" },
+  ensure_installed = {
+    "lua_ls",
+    "tsserver",
+    "html",
+    "cssls",
+    "emmet_ls",
+    "pyright",
+    "clangd",
+    "omnisharp"
+  },
 }

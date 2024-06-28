@@ -47,6 +47,7 @@ local servers = {
   "intelephense",
   "jsonls",
   "lemminx",
+  "cmake",
 }
 
 for _, k in ipairs(servers) do
