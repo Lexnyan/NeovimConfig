@@ -10,7 +10,7 @@ dap_virtual_text.setup()
 
 -- Keybindings for nvim-dap
 vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = '', numhl = '' })
-vim.fn.sign_define('DapStopped', { text = '🟢', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapStopped', { text = '👉', texthl = '', linehl = '', numhl = '' })
 
 -- Automatically open DAP UI when debuggin sessions
 dap.listeners.after.event_initialized["dapui_config"] = function()
