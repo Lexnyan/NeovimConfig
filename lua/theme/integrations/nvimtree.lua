@@ -7,6 +7,7 @@ end
 
 return {
   NvimTreeNormal = { fg = colors.foreground, bg = colors.darker },
+  NvimTreeLineNr = { bg = colors.darker },
   NvimTreeNormalNC = { fg = colors.foreground, bg = colors.darker },
   NvimTreeRootFolder = { fg = colors.base09 },
   NvimTreeGitDirty = { fg = colors.base09 },
